@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+WEBD 164
+Shubina Irina
+Home Work Week 4
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Week 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+	<h3>At lease one piece of data has to come in from every input type.</h3>
+	<span id = "error"></span>
+	<form action = "" method = "post" onsubmit="return validate_form();" ><br/>
+		Name:<input type = "text" name = "fullname" placeholder="Enter Full Name"/><br/>
+		Gender:<br/>
+		Male<input type = "radio" name = "gender" value="male"/>Female<input type = "radio" name = "gender" value="female"/><br/>
+		Hobbies<br/>
+		Baseball <input type = "checkbox" name = "hobbies[]" value = "baseball" />  
+		Football <input type = "checkbox" name = "hobbies[]" value = "football" />  
+		Hockey <input type = "checkbox" name = "hobbies[]" value = "hockey" /><br/>
+		Favorite Show <select name = "show">
+		<option value = "">Choose Below</option>
+		<option value = "ATHF">Aqua Teen Hunger Force</option>
+		<option value = "Family Guy">Family Guy</option>
+		<option value = "Simpsons">Simpsons</option>
+	</select><br/>
+	Comments<br/>
+	<textarea cols = "50" rows = "6" name = "comments"></textarea><br/>
+	<input type = "submit" name = "submit" value = "enter me" />
+</form>
+
+
+<script>
+        //console.log(document.forms);
+        let forms_index = 0;
+
+        const validate_form = () => {
+        const form_arr = document.forms[forms_index].elements;
+        //console.log(form_arr);
+        const form_arr_lth = form_arr.length;
+
+		//console.log(form_arr_lth);
+
+    	let text_msg = '';
+        let radio_msg = '';
+        let checkbox_msg = '';
+        let drop_down_msg = '';
+        let textarea_msg = '';
+    	let checker = true;
+        let radio_btn = false;
+        let checkbox_btn =  false;
+
+        for ( let i = 0; i < form_arr_lth; i++ ){
+
+            /*********************
+            checking text input
+            *********************/
+    	    if ( form_arr[i].type == 'text' && form_arr[i].value === '' ){
+
+			    text_msg = "<p>please enter your " + form_arr[i].name + "</p>";
+			    checker = false;
+			   // console.log(checker);
+		    }
+            /*********************
+            end text input check
+            *********************/
+
+            /*********************
+            checking radio input
+            *********************/
+            if ( form_arr[i].type == 'radio' ){
+
+                let radio_name = form_arr[i].name;
+                let radio_list = form_arr[radio_name];
+
+                //console.log(radio_list);
+            
+                for(let i = 0; i < radio_list.length; i++){
+
+                    if(radio_list[i].checked === true){
+                        radio_btn = true;
+                    }
+                }
+                
+                if(radio_btn === false){
+
+                    radio_msg = "<p>please select your " + radio_name + "</p>";
+					checker = false;
+                }
+                
+            }
+            /**************
+            end radio check
+            **************/
+
+            /***********************
+            checking checkbox input
+            ***********************/
+            if ( form_arr[i].type == 'checkbox' ){
+
+                let checkbox_name = form_arr[i].name;
+                let radio_list = form_arr[checkbox_name];
+
+                //console.log(radio_list);
+
+                for(let i = 0; i < radio_list.length; i++){
+
+                if(radio_list[i].checked === true){
+                    checkbox_btn = true;
+                }
+            }
+
+                if(checkbox_btn === false){
+
+                    checkbox_msg = "<p>Please select at least one hobby</p>";
+                    checker = false;
+                }
+
+            }
+            /******************
+            end checkbox check
+            ******************/
+
+            /*******************
+            drop-down list check
+            *******************/
+            if(form_arr[i].type == 'select-one' && form_arr[i].value === '' ){
+    
+                drop_down_msg = "<p>Please select your favorite show</p>";
+                checker = false;
+            }
+            /***********************
+            end drop-down list check
+            ***********************/
+
+            /*************
+            textarea check
+            **************/
+            if(form_arr[i].type == 'textarea' && form_arr[i].value === ''){
+                textarea_msg = "<p>Please leave us a comment</p>";
+                checker = false;
+
+            }
+            /*****************
+            end textarea check
+            *****************/
+        }
+
+	document.getElementById( 'error' ).innerHTML = text_msg + radio_msg + checkbox_msg + drop_down_msg + textarea_msg;
+	return checker;
+	
+
+    }
+
+</script>
+</body>
+</html>
+    
